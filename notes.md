@@ -59,3 +59,25 @@ return <div></div>
   - `const {error, loading, data} = useQuery(GET_CHARACTERS)` from const obj = useQuery(GET_CHARACTERS)
 
 * best to do error and loading handling
+
+# Query Hook!
+
+- to refractor, we can make a hook called useCharacters (in its own file) and call the hook from the CharactersList.js
+
+src > hooks > useCharacters.js
+// useCharacters.js
+import { useQuery, gql } from "@apollo/client";
+
+const GET_CHARACTERS = gql` query { characters { results { id name image } } }`;
+
+// this function will use the useQuery call
+export const useCharacters = () => {
+const { error, loading, data } = useQuery(GET_CHARACTERS);
+
+return { error, loading, data };
+};
+
+// CharactersList.js
+
+...inside component function before return
+const { error, loading, data } = useCharacters();
